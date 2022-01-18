@@ -1,36 +1,48 @@
 <?php
 
-$first_err = $last_err = $email_err = $pass_err = $conpass_err = $qual_err = $mar_err = $gen_err = $cou_err = $pro_err = "";
+// $first_err = $last_err = $email_err = $pass_err = $conpass_err = $qual_err = $mar_err = $gen_err = $cou_err = $pro_err = "";
 
-if (isset($_POST['signup'])) {
+// if (isset($_POST['signup'])) {
 
-    if (!empty($_POST['first_name']) && !empty($_POST['last_name']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['confirm_password']) && !empty($_POST['courses']) && !empty($_POST['martial']) && !empty($_POST['gender']) && !empty($_POST['language']) && !empty($_POST['profile'])) {
-
-
-        echo $first_err = "";
-        echo $last_err = "";
-        echo $email_err = "";
-        echo $pass_err = "";
-        echo $conpass_err = "";
-        echo $qual_err = "";
-        echo $mar_err = "";
-        echo $gen_err = "";
-        echo $cou_err = "";
-    } else {
+//     if (!empty($_POST['first_name']) && !empty($_POST['last_name']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['confirm_password']) && !empty($_POST['courses']) && !empty($_POST['martial']) && !empty($_POST['gender']) && !empty($_POST['language']) && !empty($_POST['profile'])) {
 
 
-        $first_err = "Please Fill FirstName";
-        $last_err = "Please Fill LastName";
-        $email_err = "Please Fill Email";
-        $pass_err = "Please Fill Password";
-        $conpass_err = "Please Fill Confirm Password";
-        $qual_err = "Please Fill Qualification";
-        $mar_err = "Please Fill Your Martial";
-        $gen_err = "Please Fill Your Gender";
-        $cou_err = "Please Fill Your Languages";
-        $pro_err = "Please Upload Your Profile";
-    }
-}
+//         echo $first_err = "";
+//         echo $last_err = "";
+//         echo $email_err = "";
+//         echo $pass_err = "";
+//         echo $conpass_err = "";
+//         echo $qual_err = "";
+//         echo $mar_err = "";
+//         echo $gen_err = "";
+//         echo $cou_err = "";
+
+
+
+//     } else {
+
+
+//         $first_err = "Please Fill FirstName";
+//         $last_err = "Please Fill LastName";
+//         $email_err = "Please Fill Email";
+//         $pass_err = "Please Fill Password";
+//         $conpass_err = "Please Fill Confirm Password";
+//         $qual_err = "Please Fill Qualification";
+//         $mar_err = "Please Fill Your Martial";
+//         $gen_err = "Please Fill Your Gender";
+//         $cou_err = "Please Fill Your Languages";
+//         $pro_err = "Please Upload Your Profile";
+
+//     }
+
+
+
+
+
+
+
+
+// }
 
 
 
@@ -72,6 +84,98 @@ if (isset($_POST['signup'])) {
 </head>
 
 <body>
+    <!-- PHP Code Start -->
+    <?php
+    // define variables and set to empty values
+
+    $first_err = $last_err = $email_err = $pass_err = $conpass_err = $phone_err = $qual_err = $mar_err = $gen_err = $cou_err = $pro_err = "";
+
+
+    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+
+        // First Name
+
+        if (empty($_POST['first_name']) || strlen($_POST['first_name']) < 3) {
+
+            $first_err = "Name Is Required";
+        } else {
+
+            $name = check_data($_POST['first_name']);
+            // Check Name Only Letters
+            if (!preg_match("/^[a-zA-Z]{1,10}$/", $name)) {
+                $first_err = "Only letters allowed At Least 3 Characters";
+            }
+        }
+
+        // Last Name
+
+        if (empty($_POST['last_name']) || strlen($_POST['last_name']) < 3) {
+
+            $last_err = "Last Name Is Required Atleast 4 Characters";
+        } else {
+
+            $last_name = check_data($_POST['last_name']);
+
+            if (!preg_match("/^[a-zA-Z]{1,10}$/", $last_name)) {
+                $last_err = "Only letters and white space allowed";
+            }
+        }
+
+        // Email 
+        
+        if (empty($_POST['email'])) {
+            $email_err = "Email Is Required";
+
+        }else{
+            $email = check_data($_POST['email']);
+
+            if (!preg_match("/^(\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*\s*[,]?\b)*$/",$email)) {
+                $email_err = "Please Fill Valid Email xyx@gmail.com";
+            }
+
+        }
+
+        // Password
+
+        if (empty($_POST['Password']) && strlen($_POST['password']) < 10 ) {
+
+            $pass_err = "Password Is Required Atleast 10 digits";
+
+        }else{
+            // $pass = check_data($_POST['Password']);
+
+           
+        }
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+    function check_data($data)
+    {
+        $data = trim($data);
+        return $data;
+    }
+
+
+
+
+
+
+    ?>
+
     <div class="container-fluid">
         <div class="row bg-light mb-4">
             <div class="col-md-12">
@@ -83,14 +187,14 @@ if (isset($_POST['signup'])) {
 
         <div class="row justify-content-center">
             <div class="col-md-4 py-5 bg-dark">
-                <form class="p-3" action="" method="POST" onsubmit="return validate()">
+                <form class="p-3" action="" method="POST" onsubmit="">
                     <!-- FirstName -->
 
                     <div class="input-group mb-3">
 
                         <span class="input-group-text" id="basic-addon1"><i class="far fa-user"></i></span>
 
-                        <input type="text" name="first_name" class="form-control" placeholder="Firstname" aria-label="Username" aria-describedby="basic-addon1">
+                        <input type="text" name="first_name" class="form-control" placeholder="Firstname" aria-label="Username" aria-describedby="basic-addon1" autocomplete="off">
 
                     </div>
                     <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php echo $first_err; ?></div>
@@ -102,7 +206,7 @@ if (isset($_POST['signup'])) {
 
                         <span class="input-group-text" id="basic-addon1"><i class="fas fa-user-alt"></i></span>
 
-                        <input type="text" name="last_name" class="form-control" placeholder="Lastname" aria-label="Username" aria-describedby="basic-addon1" />
+                        <input type="text" name="last_name" class="form-control" placeholder="Lastname" aria-label="Username" aria-describedby="basic-addon1" autocomplete="off" />
 
 
 
@@ -114,7 +218,7 @@ if (isset($_POST['signup'])) {
 
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1"><i class="fas fa-envelope-open-text"></i></span>
-                        <input type="text" name="email" class="form-control" placeholder="Email.com" aria-label="Username" aria-describedby="basic-addon1">
+                        <input type="text" name="email" class="form-control" placeholder="Email.com" aria-label="Username" aria-describedby="basic-addon1" autocomplete="off">
                         <!-- <span class="text-danger">fggd</span> -->
 
                     </div>
@@ -124,17 +228,35 @@ if (isset($_POST['signup'])) {
 
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1"><i class="fas fa-unlock-alt"></i></span>
-                        <input type="text" name="password" class="form-control" placeholder="Password" aria-label="Username" aria-describedby="basic-addon1">
+                        <input type="text" name="password" class="form-control" placeholder="Password" aria-label="Username" aria-describedby="basic-addon1" autocomplete="off">
                     </div>
-                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php echo $pass_err; ?></div>
+                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php echo $pass_err;  ?></div>
 
                     <!-- Confirm Password -->
 
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1"><i class="fas fa-lock"></i></span>
-                        <input type="text" name="confirm_password" class="form-control" placeholder="Confirm Password" aria-label="Username" aria-describedby="basic-addon1">
+                        <input type="text" name="confirm_password" class="form-control" placeholder="Confirm Password" aria-label="Username" aria-describedby="basic-addon1" autocomplete="off">
                     </div>
-                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php echo $conpass_err; ?></div>
+                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php //echo //$conpass_err; 
+                                                                                        ?></div>
+
+                    <!-- Contact Number -->
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-phone-alt"></i></span>
+                        <input type="text" name="phone" class="form-control" placeholder="+91" aria-label="Username" aria-describedby="basic-addon1" autocomplete="off">
+                    </div>
+                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php //echo //$phone_err; 
+                                                                                        ?></div>
+
+
+
+
+
+
+
+
+
 
                     <!-- Qualification -->
 
@@ -142,14 +264,15 @@ if (isset($_POST['signup'])) {
                         <span class="input-group-text" id="basic-addon1"><i class="fas fa-graduation-cap"></i></span>
 
                         <select class="form-select" name="courses" aria-label="Default select example">
-                            <option selected>Select Qualification</option>
+                            <option selected disabled>Select Qualification</option>
                             <option value="BTech">BTech</option>
                             <option value="BCom">BCom</option>
                             <option value="BCA">BCA</option>
                         </select>
 
                     </div>
-                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php echo $qual_err; ?></div>
+                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php //echo //$qual_err; 
+                                                                                        ?></div>
                     <!-- Martial State -->
 
                     <div class="input-group mb-3">
@@ -166,7 +289,8 @@ if (isset($_POST['signup'])) {
                             </label>
                         </div>
                     </div>
-                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php echo $mar_err; ?></div>
+                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php // echo $mar_err; 
+                                                                                        ?></div>
                     <!-- Gender -->
 
                     <div class="input-group mb-3">
@@ -183,7 +307,8 @@ if (isset($_POST['signup'])) {
                             </label>
                         </div>
                     </div>
-                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php echo $gen_err; ?></div>
+                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php //echo $gen_err; 
+                                                                                        ?></div>
 
 
                     <!-- Skills Languages -->
@@ -226,14 +351,15 @@ if (isset($_POST['signup'])) {
 
                     </div>
 
-                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php echo $cou_err; ?></div>
+                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php //echo $cou_err; 
+                                                                                        ?></div>
 
                     <!-- Address Field -->
 
                     <div class="input-group mb-3">
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
-                            <textarea class="form-control" aria-label="With textarea" placeholder="Address"></textarea>
+                            <textarea class="form-control" name="address" aria-label="With textarea" placeholder="Address"></textarea>
                         </div>
 
                     </div>
@@ -244,7 +370,8 @@ if (isset($_POST['signup'])) {
                             <input class="form-control" type="file" name="profile" id="formFile">
                         </div>
                     </div>
-                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php echo $pro_err; ?></div>
+                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php //echo $pro_err; 
+                                                                                        ?></div>
 
 
 
@@ -264,6 +391,30 @@ if (isset($_POST['signup'])) {
 
     </div>
 
+    <?php
+
+    // $first_name = $_POST['first_name'];
+    // $last_name = $_POST['last_name'];
+    // $email = $_POST['email'];
+    // $password = $_POST['password'];
+    // $confirm_pass = $_POST['confirm_password'];
+    // $qualification = $_POST['courses'];
+    // $martial = $_POST['martial'];
+    // $gender = $_POST['gender'];
+    // $skills = $_POST['language'];
+    // $address = $_POST['address'];
+    // $profile = $_POST['profile'];
+
+
+
+    // echo "$first_name <br/> $last_name <br/> $email <br/> $password <br/> $confirm_pass <br/> $qualification <br/> $martial
+    // <br/> $gender <br/> $skills <br/> $address <br/> $profile";
+
+
+
+
+
+    ?>
 
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
@@ -277,5 +428,6 @@ if (isset($_POST['signup'])) {
 
 
 </body>
+
 
 </html>
