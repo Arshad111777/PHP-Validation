@@ -95,7 +95,7 @@
 
         // First Name
 
-        if (empty($_POST['first_name']) || strlen($_POST['first_name']) < 3) {
+        if (empty($_POST['first_name']) || strlen($_POST['first_name']) < 4) {
 
             $first_err = "Name Is Required";
         } else {
@@ -109,7 +109,7 @@
 
         // Last Name
 
-        if (empty($_POST['last_name']) || strlen($_POST['last_name']) < 3) {
+        if (empty($_POST['last_name']) || strlen($_POST['last_name']) < 4) {
 
             $last_err = "Last Name Is Required Atleast 4 Characters";
         } else {
@@ -117,46 +117,129 @@
             $last_name = check_data($_POST['last_name']);
 
             if (!preg_match("/^[a-zA-Z]{1,10}$/", $last_name)) {
-                $last_err = "Only letters and white space allowed";
+                $last_err = "Only letters  allowed ";
             }
         }
 
         // Email 
-        
+
         if (empty($_POST['email'])) {
             $email_err = "Email Is Required";
-
-        }else{
+        } else {
             $email = check_data($_POST['email']);
 
-            if (!preg_match("/^(\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*\s*[,]?\b)*$/",$email)) {
+            if (!preg_match("/^(\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*\s*[,]?\b)*$/", $email)) {
                 $email_err = "Please Fill Valid Email xyx@gmail.com";
             }
-
         }
 
         // Password
 
-        if (empty($_POST['Password']) && strlen($_POST['password']) < 10 ) {
+        if (empty($_POST['password'])) {
 
             $pass_err = "Password Is Required Atleast 10 digits";
+        } else {
+            $pass = check_data($_POST['password']);
 
-        }else{
-            // $pass = check_data($_POST['Password']);
-
-           
+            if (strlen($_POST['password']) < 10) {
+                $pass_err = "Password Length 10 digits";
+            }
         }
 
+        // Confirm Password
 
 
+        if (empty($_POST['confirm_password'])) {
+
+            $conpass_err = "Cofirm Password Is Required";
+        } else {
+            $confirm = check_data($_POST['confirm_password']);
+
+            if (strlen($confirm) < 10) {
+                $conpass_err = "Password Length 10 digits";
+
+                if ($_POST['confirm_password'] == $_POST['password']) {
+                    $conpass_err = "";
+                } else {
+                    $conpass_err = "Password Not Matched";
+                }
+            }
+        }
+
+        // Phone Number Pattern
+
+        if (empty($_POST['phone'])) {
+
+            $phone_err = "Number Is Required";
+        } else {
+            $phone = check_data($_POST['phone']);
+
+            if (is_numeric($phone) && strlen($phone) == 10) {
+                $phone_err = "";
+            } else {
+                $phone_err = "Only Numeric digits Atleast 10 digits";
+            }
+        }
+
+        // Qualification
+
+        if (empty($_POST['courses'])) {
+            $qual_err = "Qualification Is Required";
+        } else {
+            $qual_err = "";
+        }
+
+        // Martial Status
+
+        if (empty($_POST['martial'])) {
+            $mar_err = "Martial Is Required";
+        } else {
+            $mar_err = "";
+        }
+
+        // Gender
+
+        if (empty($_POST['gender'])) {
+            $gen_err = "Gender Is Required";
+
+        }else{
+            $gen_err = "";
+        }
+
+// Skills 
+
+if (empty($_POST['language'])) {
+    $cou_err = "Please Skills Required";
+}else{
+    $cou_err = "";
+}
 
 
+// Profile Image
+
+if (empty($_POST['profile'])) {
+    $pro_err = "Please Chose Img File";
+}else{
+
+    $profile = check_data($_POST['profile']);
+    
+    if (!preg_match('/\.(jpg|png|jpeg)$/', $profile)) {
+
+        $pro_err = "Only Png Jpg Extension Allow";
+        
+    }else{
+        $pro_err = "";
+        
+    }
+
+}
+// End Validation
 
     }
 
 
 
-// Phone Regex  ^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$
+    // Phone Regex  ^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$
 
 
 
@@ -238,16 +321,14 @@
                         <span class="input-group-text" id="basic-addon1"><i class="fas fa-lock"></i></span>
                         <input type="text" name="confirm_password" class="form-control" placeholder="Confirm Password" aria-label="Username" aria-describedby="basic-addon1" autocomplete="off">
                     </div>
-                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php //echo //$conpass_err; 
-                                                                                        ?></div>
+                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php echo $conpass_err; ?></div>
 
                     <!-- Contact Number -->
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1"><i class="fas fa-phone-alt"></i></span>
                         <input type="text" name="phone" class="form-control" placeholder="+91" aria-label="Username" aria-describedby="basic-addon1" autocomplete="off">
                     </div>
-                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php //echo //$phone_err; 
-                                                                                        ?></div>
+                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php echo $phone_err; ?></div>
 
 
 
@@ -271,8 +352,8 @@
                         </select>
 
                     </div>
-                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php //echo //$qual_err; 
-                                                                                        ?></div>
+                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php echo $qual_err; ?></div>
+
                     <!-- Martial State -->
 
                     <div class="input-group mb-3">
@@ -289,8 +370,7 @@
                             </label>
                         </div>
                     </div>
-                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php // echo $mar_err; 
-                                                                                        ?></div>
+                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php echo $mar_err;  ?></div>
                     <!-- Gender -->
 
                     <div class="input-group mb-3">
@@ -307,8 +387,7 @@
                             </label>
                         </div>
                     </div>
-                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php //echo $gen_err; 
-                                                                                        ?></div>
+                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php echo $gen_err; ?></div>
 
 
                     <!-- Skills Languages -->
@@ -351,8 +430,7 @@
 
                     </div>
 
-                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php //echo $cou_err; 
-                                                                                        ?></div>
+                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php echo $cou_err; ?></div>
 
                     <!-- Address Field -->
 
@@ -370,8 +448,7 @@
                             <input class="form-control" type="file" name="profile" id="formFile">
                         </div>
                     </div>
-                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php //echo $pro_err; 
-                                                                                        ?></div>
+                    <div id="emailHelp" class="form-text text-danger mb-3 text-center"><?php echo $pro_err;  ?></div>
 
 
 
