@@ -95,28 +95,28 @@
 
         // First Name
 
-        if (empty($_POST['first_name']) || strlen($_POST['first_name']) < 4) {
+        if (empty($_POST['first_name'])) {
 
             $first_err = "Name Is Required";
         } else {
 
             $name = check_data($_POST['first_name']);
             // Check Name Only Letters
-            if (!preg_match("/^[a-zA-Z]{1,10}$/", $name)) {
-                $first_err = "Only letters allowed At Least 3 Characters";
+            if (!preg_match("/^[a-zA-Z]{1,10}$/", $name)  || !(strlen($_POST['first_name']) >= 3)) {
+                $first_err = "Only letters allowed At Minimum 3 Characters";
             }
         }
 
         // Last Name
 
-        if (empty($_POST['last_name']) || strlen($_POST['last_name']) < 4) {
+        if (empty($_POST['last_name'])) {
 
-            $last_err = "Last Name Is Required Atleast 4 Characters";
+            $last_err = "Last Name Is Required Minimum 4 Characters";
         } else {
 
             $last_name = check_data($_POST['last_name']);
 
-            if (!preg_match("/^[a-zA-Z]{1,10}$/", $last_name)) {
+            if (!preg_match("/^[a-zA-Z]{1,10}$/", $last_name)  || !(strlen($_POST['last_name']) >= 4)) {
                 $last_err = "Only letters  allowed ";
             }
         }
@@ -141,8 +141,8 @@
         } else {
             $pass = check_data($_POST['password']);
 
-            if (strlen($_POST['password']) < 10) {
-                $pass_err = "Password Length 10 digits";
+            if (!preg_match("/^[a-zA-Z1-9]{1,20}$/", $pass)) {
+                $pass_err = "Password Only A-Z & Number";
             }
         }
 
@@ -155,14 +155,25 @@
         } else {
             $confirm = check_data($_POST['confirm_password']);
 
-            if (strlen($confirm) < 10) {
+            if (!preg_match("/^[a-zA-Z1-9]{1,20}$/", $confirm)) {
                 $conpass_err = "Password Length 10 digits";
 
-                if ($_POST['confirm_password'] == $_POST['password']) {
+                // if (check_data($pass) === check_data($confirm)) {
+                //     $conpass_err = "Password Not Matched";
+
+                // } else {
+                //     $conpass_err = "";
+                // }
+            } else {
+
+                if ($_POST['password'] === $_POST['confirm_password'] ) {
                     $conpass_err = "";
-                } else {
-                    $conpass_err = "Password Not Matched";
+                }else{
+
+                    $conpass_err = "Password Are Not Matched";
                 }
+
+               
             }
         }
 
@@ -201,39 +212,40 @@
 
         if (empty($_POST['gender'])) {
             $gen_err = "Gender Is Required";
-
-        }else{
+        } else {
             $gen_err = "";
         }
 
-// Skills 
+        // Skills 
 
-if (empty($_POST['language'])) {
-    $cou_err = "Please Skills Required";
-}else{
-    $cou_err = "";
-}
+        if (empty($_POST['language'])) {
+            $cou_err = "Please Skills Required";
+        } else {
+            $cou_err = "";
+        }
 
 
-// Profile Image
+        // Profile Image
 
-if (empty($_POST['profile'])) {
-    $pro_err = "Please Chose Img File";
-}else{
+        if (empty($_POST['profile'])) {
+            $pro_err = "Please Chose Img File";
+        } else {
 
-    $profile = check_data($_POST['profile']);
-    
-    if (!preg_match('/\.(jpg|png|jpeg)$/', $profile)) {
+            $profile = check_data($_POST['profile']);
 
-        $pro_err = "Only Png Jpg Extension Allow";
-        
-    }else{
-        $pro_err = "";
-        
-    }
+            if (!preg_match('/\.(jpg|png|jpeg)$/', $profile)) {
 
-}
-// End Validation
+                $pro_err = "Only Png Jpg Extension Allow";
+            } else {
+                $pro_err = "";
+            }
+        }
+        // End Validation
+
+
+$conn = mysqli_connect("localhost","root","","crud") or die("Connection Failed");
+
+
 
     }
 
